@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw    # Importing PIL to generate and manipulate images
-from itertools import permutations  # to generate character combinations
+from itertools import permutations, product  # to generate character combinations
 from io import BytesIO
 import hashlib
 import json
@@ -19,7 +19,10 @@ def generate_character_combos():
     '''
     Makes characters :)
     '''
-    combos = permutations(range(0, VARIATIONS), len(PARTS))
+    # combos = permutations(range(0, VARIATIONS), len(PARTS)) # THIS IS WRONG because it doesn't repeat numbers
+    # i.e. it would never do (1,1,1) or (2,4,2) etc
+    # so what we actually need is the Cartesian Product: https://stackoverflow.com/questions/3099987/generating-permutations-with-repetitions
+    combos = product(range(0, VARIATIONS), repeat=len(PARTS))
 
     # Looping over all possible character permutations
     for c in combos:
