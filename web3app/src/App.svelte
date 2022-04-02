@@ -1,65 +1,88 @@
 <script>
-  import logo from './assets/svelte.png'
-  import Counter from './lib/Counter.svelte'
+    import logo from "./assets/svelte.png";
+    import Counter from "./lib/Counter.svelte";
+
+    // Packages
+    import { ethers } from 'ethers'
+    
+    // My Components
+    import Install from './components/Install.svelte'
+    import WalletConnect from './components/WalletConnect.svelte'
+    import TokenList from './components/TokenList.svelte'
+
+    // Smart Contract
+    import { FireMenABI, contractAddress } from './lib/constants'
+
+    // Ethereum constants
+    const { ethereum } = window // getting the Ethereum object from window.ethereum from metamask
+    const provider = new ethers.providers.Web3Provider(ethereum)
+    const signer = provider.getSigner() // getting the user's signature to confirm transactions on the blockchain
+
+    // instantiate the contract
+    const contract = new ethers.Contract(contractAddress, FireMenABI, signer)
 </script>
 
 <main>
-  <img src={logo} alt="Svelte Logo" />
-  <h1>Hello world!</h1>
+    <img src={logo} alt="Svelte Logo" />
+    <h1>Fireship NFT App</h1>
 
-  <Counter />
+    <Counter />
 
-  <p>
-    Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
-    apps.
-  </p>
+    <p></p>
+    <h3>Welcome to my localhost NFT testing website</h3>
+    <WalletConnect />
 
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for
-    the officially supported framework, also powered by Vite!
-  </p>
+    <br><br>
+
+    <TokenList contract={contract} />
+
+
 </main>
 
 <style>
-  :root {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  }
+    :root {
+        font-family: -apple-system, BlinkMacSystemFont, "Comic Sans MS", "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    }
 
-  main {
-    text-align: center;
-    padding: 1em;
-    margin: 0 auto;
-  }
+    main {
+        display: grid;
+        place-items: center;
 
-  img {
-    height: 16rem;
-    width: 16rem;
-  }
+        text-align: center;
 
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4rem;
-    font-weight: 100;
-    line-height: 1.1;
-    margin: 2rem auto;
-    max-width: 14rem;
-  }
+        padding: 1em;
+        max-width: 90vw;
+        margin: 0 auto;
+    }
 
-  p {
-    max-width: 14rem;
-    margin: 1rem auto;
-    line-height: 1.35;
-  }
+    img {
+        height: 16rem;
+        width: 16rem;
+    }
 
-  @media (min-width: 480px) {
     h1 {
-      max-width: none;
+        color: #ff3e00;
+        text-transform: uppercase;
+        font-size: 4rem;
+        font-weight: 100;
+        line-height: 1.1;
+        margin: 2rem auto;
+        max-width: 14rem;
     }
 
     p {
-      max-width: none;
+        max-width: 14rem;
+        margin: 1rem auto;
+        line-height: 1.35;
     }
-  }
+
+    @media (min-width: 480px) {
+        h1 {
+            max-width: none;
+        }
+
+        p {
+            max-width: none;
+        }
+    }
 </style>
