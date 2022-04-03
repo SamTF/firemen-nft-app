@@ -3,11 +3,12 @@
     // IMPORTS
     import { ethers } from 'ethers'
     import { shortAddr, shortBalance } from '../lib/utils.js'
+    import { connectedAccount } from '../stores/store'
     
     const { ethereum } = window // getting the Ethereum object from window.ethereum from metamask
 
-    let balance = 0
-    let connectedAccount = null
+    let balance = '0'
+    // let connectedAccount = null
 
     const getBalance = async () => {
         // getting the currently connected account
@@ -29,7 +30,7 @@
 
         // Get all available accounts and let user choose one to connect
         const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
-        connectedAccount = accounts[0]
+        $connectedAccount = accounts[0]
     }
 
     // If there's an Ethereum Object, connect to user's wallet and get their ether balance
@@ -40,7 +41,7 @@
         // Listening for account changes
         ethereum.on('accountsChanged', function (accounts) {
             console.log(`Account changed!\nNew account: ${accounts}`)
-            connectedAccount = accounts[0]
+            $connectedAccount = accounts[0]
             getBalance()
         })
     }
@@ -49,10 +50,10 @@
 
 <!-- HTML -->
 <div class="container">
-    {#if connectedAccount}
+    {#if $connectedAccount}
         <div class="btn-connected">
             <div class="balance">{shortBalance(balance)} ETH</div>
-            <div class="address card">{shortAddr(connectedAccount)}</div>
+            <div class="address card">{shortAddr($connectedAccount)}</div>
         </div>
     {:else}
         <button 
