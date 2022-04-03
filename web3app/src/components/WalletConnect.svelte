@@ -2,7 +2,7 @@
 <script>
     // IMPORTS
     import { ethers } from 'ethers'
-    import { shortAddr } from '../lib/shortAddr'
+    import { shortAddr, shortBalance } from '../lib/utils.js'
     
     const { ethereum } = window // getting the Ethereum object from window.ethereum from metamask
 
@@ -51,7 +51,7 @@
 <div class="container">
     {#if connectedAccount}
         <div class="btn-connected">
-            <div class="balance">{balance} ETH</div>
+            <div class="balance">{shortBalance(balance)} ETH</div>
             <div class="address card">{shortAddr(connectedAccount)}</div>
         </div>
     {:else}
