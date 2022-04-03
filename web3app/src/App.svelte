@@ -9,17 +9,6 @@
     import Install from './components/Install.svelte'
     import WalletConnect from './components/WalletConnect.svelte'
     import TokenList from './components/TokenList.svelte'
-
-    // Smart Contract
-    import { FireMenABI, contractAddress } from './lib/constants'
-
-    // Ethereum constants
-    const { ethereum } = window // getting the Ethereum object from window.ethereum from metamask
-    const provider = new ethers.providers.Web3Provider(ethereum)
-    const signer = provider.getSigner() // getting the user's signature to confirm transactions on the blockchain
-
-    // instantiate the contract
-    const contract = new ethers.Contract(contractAddress, FireMenABI, signer)
 </script>
 
 <main>
@@ -34,7 +23,7 @@
 
     <br><br>
 
-    <TokenList contract={contract} />
+    <TokenList />
 
 
 </main>
