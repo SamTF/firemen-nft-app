@@ -3,6 +3,7 @@
 <!-- JS -->
 <script>
     import { onMount } from 'svelte';
+    import MintToken from './MintToken.svelte'
 
     // Importing IPFS constants
     import { ipfsCID, ipfsGateway } from '../lib/constants'
@@ -18,10 +19,7 @@
 
     // Checks if an NFT has been minted using the Smart Contract
     const isMinted = async () => {
-        console.log('hello')
         const result = await contract.isContentOwned(metadataURI)
-        console.log(`${metadataURI} : ${result}`)
-
         minted = result
     }
 
@@ -30,6 +28,14 @@
 
 <!-- HTML -->
 <div class="nft-card">
+    <div class="mint-status">
+        {#if minted}
+            <div class="sold">❌ Sold</div>
+        {:else}
+            <div class="available">🛒 Available!</div>
+        {/if}
+    </div>
+
     <img 
         src={imageURI}
         alt={`NFT #${id}`}
@@ -38,13 +44,9 @@
 
     <p>NFT #{id}</p>
 
-    <div class="mint-status">
-        {#if minted}
-            <div class="sold">❌ Sold</div>
-        {:else}
-            <div class="available">🛒 Available!</div>
-        {/if}
-    </div>
+    {#if !minted}
+        <MintToken {metadataURI} on:minted={isMinted} />
+    {/if}
 </div>
 
 
@@ -68,6 +70,9 @@
     .mint-status {
         display: grid;
         place-items: center;
+
+        margin-top: -1rem;
+        z-index: -10;
     }
 
     .sold {
@@ -75,6 +80,9 @@
         color: white;
         width: fit-content;
         padding: 0.5rem 1rem;
+
+        margin: 0;
+        width: 100%;
     }
 
     .available {
@@ -82,5 +90,8 @@
         color: white;
         width: fit-content;
         padding: 0.5rem 1rem;
+
+        margin: 0;
+        width: 100%;
     }
 </style>
