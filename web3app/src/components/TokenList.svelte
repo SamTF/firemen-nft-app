@@ -4,10 +4,9 @@
 <script>
     import { onMount } from 'svelte'
     import { firemenIds } from '../lib/constants'
+    import { contract } from '../lib/ethereum'
     import NFTCard from './NFTCard.svelte'
 
-    // Takes in a contract object
-    export let contract
 
     let tokensMinted = 0
 
