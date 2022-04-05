@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+// import "hardhat/console.sol";
+
 contract FireMen is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
@@ -13,6 +15,9 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
 
     // Dict to keep track of which URIs have already been minted
     mapping(string => uint8) existingURIs;
+
+    // Dict to track each NFT's minting ID by name
+    mapping(string => uint256) tokenName2Id;
 
     // Token name & symbol
     constructor() ERC721("FireMen", "FIRE") {}
@@ -55,8 +60,11 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
     // Allow anyone to mint a new NFT if they have enough ETH
     function payToMint(
         address recipient,
-        string memory metadataURI
+        string memory metadataURI,
+        string memory tokenName
     ) public payable returns (uint256) {
+
+        // console.log("Addr %s attempting to mint NFT with %s ETH", recipient, msg.value);
 
         // If statement to check if URI has been minted already
         require(existingURIs[metadataURI] != 1, 'NFT already minted ;(');
@@ -71,8 +79,16 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
         // Set the URI to 1: means it has been minted (true)
         existingURIs[metadataURI] = 1;
 
+        // Tracking the token's TokenID
+        tokenName2Id[tokenName] = newItemId;
+
         // Minting the NFT
         _mint(recipient, newItemId);
+        _setTokenURI(newItemId, metadataURI);
+
+        // Hardhat debug logs
+        // string memory newTokenURI = tokenURI(newItemId);
+        // console.log('User @ %s has minted the NFT @ %s', recipient, newTokenURI);
 
         return newItemId;
     }
@@ -80,5 +96,40 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
     // How many tokens have been minted
     function tokenCount() public view returns (uint256) {
         return _tokenIdCounter.current();
+    }
+
+    // Fetch a token by name
+    function getTokenIdByName(string memory name) public view returns (uint256) {
+        // console.log('Name: %s | Id: %s', name, tokenName2Id[name]);
+        return tokenName2Id[name];
+    }
+
+    // Get an NFT's owner by the token name
+    function getOwnerByName(string memory name) public view returns (address) {
+        uint256 tokenId = tokenName2Id[name];
+        address owner = ownerOf(tokenId);
+
+        return owner;
+    }
+
+    // Get the ether balance of this contract
+    function getContractBalance() public view returns (uint256) {
+        uint256 balance = address(this).balance;
+        // console.log('This Contract has received %s WEI', balance);
+
+        return balance;
+    }
+
+
+    // Send revenue ether to the contract owner
+    address _owner = 0x5527724ba84dab25559084903cDd03237A5fE143;
+
+    function cashOut() public payable {
+        uint256 balance = getContractBalance();
+        require(balance > 0, 'No ether to cash out ;(');
+        
+        payable(_owner).transfer(balance);
+
+        // console.log('Transferred %s GWEI to addr: %s', (balance/10**9), _owner);
     }
 }
