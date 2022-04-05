@@ -9,6 +9,7 @@
 
     // Props
     export let metadataURI
+    export let id
 
     const dispatch = createEventDispatcher();
 
@@ -18,7 +19,7 @@
         const addr = $connectedAccount
 
         // Call the payToMint func on the smart contract that receives ether in exchange of NFT ownership
-        const result = await contract.payToMint(addr, metadataURI, { value: ethers.utils.parseEther('0.05') })
+        const result = await contract.payToMint(addr, metadataURI, id, { value: ethers.utils.parseEther('0.05') })
 
         // Wait for the transaction to be mined
         await result.wait()
