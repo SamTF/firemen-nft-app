@@ -2,25 +2,44 @@
 
 <!-- JS -->
 <script>
-    import { onMount } from 'svelte';
+    import { onMount, createEventDispatcher } from 'svelte';
     import MintToken from './MintToken.svelte'
 
     // Importing IPFS constants
     import { ipfsCID, ipfsGateway } from '../lib/constants'
+    import { shortAddr } from '../lib/utils'
 
     // Props
     export let id
     export let contract
 
     // Vars
-    const metadataURI = `${ipfsGateway}${ipfsCID}/${id}.json`
+    const metadataURI = `${ipfsCID}/${id}.json`
     const imageURI = `${ipfsGateway}${ipfsCID}/${id}.png`
     let minted = false
+    let owner = ''
 
     // Checks if an NFT has been minted using the Smart Contract
     const isMinted = async () => {
         const result = await contract.isContentOwned(metadataURI)
         minted = result
+
+        if (minted) getOwner()
+    }
+
+    // Get the address of the current NFT owner
+    const getOwner = async () => {
+        const result = await contract.getOwnerByName(id)
+        console.log(`Owner of ${id} -> ${result}`)
+        owner = result
+    }
+
+    // Emit event to update minted token counter
+    const dispatch = createEventDispatcher();
+
+    const onMinted = async () => {
+        await isMinted()
+        dispatch('minted', {isMinted: true, tokenId: id})
     }
 
     onMount(isMinted)
@@ -45,7 +64,15 @@
     <p>NFT #{id}</p>
 
     {#if !minted}
-        <MintToken {metadataURI} on:minted={isMinted} />
+        <MintToken {metadataURI} {id} on:minted={onMinted} />
+    {:else}
+        <a 
+            href={`https://etherscan.io/address/${owner}`} target="_blank"
+            class="addr-btn"
+        >
+            <b>ⓘ</b>
+            {shortAddr(owner)}
+        </a>
     {/if}
 </div>
 
@@ -93,5 +120,26 @@
 
         margin: 0;
         width: 100%;
+    }
+
+    /* NFT Owner Address */
+    .addr-btn {
+        padding: 0.5rem 0.75rem;
+        border-radius: 10px;
+
+        border: none;
+        background-color: #00C1FF;
+        color: whitesmoke;
+        
+        font-family: inherit;
+        font-size: 1rem;
+        /* font-weight: bold; */
+        text-decoration: none;
+
+        cursor: pointer;
+    }
+
+    .addr-btn:hover {
+        background-color: #5cd6ff;
     }
 </style>
