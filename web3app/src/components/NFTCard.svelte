@@ -67,79 +67,11 @@
         <MintToken {metadataURI} {id} on:minted={onMinted} />
     {:else}
         <a 
+            class="btn-owner-addr"
             href={`https://etherscan.io/address/${owner}`} target="_blank"
-            class="addr-btn"
         >
             <b>ⓘ</b>
             {shortAddr(owner)}
         </a>
     {/if}
 </div>
-
-
-<!-- CSS -->
-<style>
-    .nft-card {
-        display: flex;
-        flex-direction: column;
-
-        padding: 1rem;
-        border: 10px solid black;
-        border-radius: 20px;
-    }
-
-    .nft-card img {
-        max-height: 256px;
-        max-width: 256px;
-    }
-
-
-    .mint-status {
-        display: grid;
-        place-items: center;
-
-        margin-top: -1rem;
-        z-index: -10;
-    }
-
-    .sold {
-        background-color: grey;
-        color: white;
-        width: fit-content;
-        padding: 0.5rem 1rem;
-
-        margin: 0;
-        width: 100%;
-    }
-
-    .available {
-        background-color: rgb(143, 197, 62);
-        color: white;
-        width: fit-content;
-        padding: 0.5rem 1rem;
-
-        margin: 0;
-        width: 100%;
-    }
-
-    /* NFT Owner Address */
-    .addr-btn {
-        padding: 0.5rem 0.75rem;
-        border-radius: 10px;
-
-        border: none;
-        background-color: #00C1FF;
-        color: whitesmoke;
-        
-        font-family: inherit;
-        font-size: 1rem;
-        /* font-weight: bold; */
-        text-decoration: none;
-
-        cursor: pointer;
-    }
-
-    .addr-btn:hover {
-        background-color: #5cd6ff;
-    }
-</style>

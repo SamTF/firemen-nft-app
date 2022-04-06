@@ -51,70 +51,16 @@
 <!-- HTML -->
 <div class="container">
     {#if $connectedAccount}
-        <div class="btn-connected">
+        <div class="wallet-connected">
             <div class="balance">{shortBalance(balance)} ETH</div>
             <div class="address card">{shortAddr($connectedAccount)}</div>
         </div>
     {:else}
         <button 
-            class="btn-connect"
+            class="connect-wallet"
             on:click={connectWallet}
         >
             Connect to a wallet
         </button>
     {/if}
 </div>
-
-
-<!-- CSS -->
-<style>
-    button {
-        border: none;
-        outline: none;
-        background-color: transparent;
-
-        font-family: inherit;
-
-        border-radius: 10px;
-        cursor: pointer;
-        color: whitesmoke;
-    }
-
-    .container {
-        display: flex;
-        padding: 0.5rem;
-        border-radius: 10px;
-
-        /* background-color: rgb(255, 0, 98); */
-        background-color: #ff3e00;
-        color: whitesmoke;
-    }
-
-    .container:hover {
-        background-color: #ff602b;
-    }
-    
-    .card {
-        padding: 0.5rem 1rem;
-        border-radius: 10px;
-        background-color: rgba(0, 0, 0, 0.25);
-    }
-
-    .btn-connect {
-        font-size: 1.25rem;
-    }
-
-    .btn-connected {
-        display: flex;
-        gap: 1rem;
-
-        align-items: center;
-
-        cursor: pointer;
-    }
-
-    .balance {
-        font-size: 1.25rem;
-        font-weight: 700;
-    }
-</style>

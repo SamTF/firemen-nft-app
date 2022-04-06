@@ -1,0 +1,63 @@
+// Button mixin component
+@mixin button($accent-colour, $font-colour, $padding-y: 0.5rem, $padding-x: 0.5rem, $outline-offset: 5px, $outline: false, $click-fx: false) {
+    // Size / Design
+    display: flex;
+    align-items: center;        // centering on the X axis
+    justify-content: center;    // centering on the Y axis
+    gap: 1rem;
+    padding: $padding-y $padding-x;
+
+    // Colours
+    background-color: $accent-colour;
+    color: $font-colour;
+    font-family: inherit;
+
+    // Border
+    outline-offset: 0px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+
+    // Cursor
+    cursor: pointer;
+
+    // Animation
+    transition: all 100ms;
+
+    // Mouse over
+    &:hover {
+        // Lightening the background colour
+        background-color: scale-color($accent-colour, $lightness: 20%);
+
+        // Animated dashed outline - if $outline is enabled
+        @if $outline {
+            outline: 3px dashed $accent-colour;
+            outline-offset: $outline-offset;
+        }
+    }
+
+    // Clicking
+    &:active {
+        // Lightening the background colour even more
+        background-color: lighten($accent-colour, 25%);
+
+        // Squishing the button, but adding margin to make it stay in place - only if click-fx are enabled
+        @if $click-fx {
+            outline-offset: $outline-offset * 2;
+
+            padding: ($padding-y * 0.5) ($padding-x * 1.75);
+            margin-top: $padding-y * 0.5;
+            margin-bottom: $padding-y * 0.5;
+        }
+        
+
+        transition: all 0ms;
+    }
+
+    // A card inside the button with extra stuff
+    .card {
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.25);
+    }
+}

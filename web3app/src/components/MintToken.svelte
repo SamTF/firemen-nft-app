@@ -32,29 +32,9 @@
     }
 </script>
 
-<button on:click={mintToken}>
+<button
+    class="mint-token"
+    on:click={mintToken}
+>
     Buy now!
 </button>
-
-
-<!-- CSS -->
-<style>
-    button {
-        padding: 0.25rem 0.5rem;
-        border-radius: 10px;
-
-        border: none;
-        background-color: #ff3e00;
-        color: whitesmoke;
-        
-        font-family: inherit;
-        font-size: 1.25rem;
-        font-weight: bold;
-
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #ff602b;
-    }
-</style>

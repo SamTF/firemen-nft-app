@@ -1,0 +1,34 @@
+// Variables
+@import 'FONTS';
+@import 'COLOURS';
+// Mixins
+@import 'button';
+// Components
+@import 'app';
+@import 'WalletConnect';
+@import 'NFTCard';
+
+
+
+// * {
+//     box-sizing: border-box;
+//     margin: 0;
+//     padding: 0;
+// }
+
+body {
+    color: $font-colour;
+    background-color: $background-colour;
+    font-family: $font-family;
+}
+
+main {
+    display: grid;
+    place-items: center;
+
+    text-align: center;
+
+    padding: 1em;
+    max-width: 90vw;
+    margin: 0 auto;
+}

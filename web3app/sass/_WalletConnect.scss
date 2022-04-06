@@ -1,0 +1,36 @@
+// The button that:
+//      A. Conects to a user's wallet
+//      B. Displays a user's balance and shortened address when connected
+
+
+// A - Connect to metamask wallet
+.connect-wallet {
+    @include button(
+            $accent-colour: $accent,
+            $font-colour: white,
+            $padding-y: 0.5rem, 
+            $padding-x: 2.5rem,
+            $outline: true,
+            $click-fx: true
+        );
+
+    font-size: 1.25rem;
+    font-family: inherit;
+}
+
+// B - Display Balance in main, and Address in sub-card
+.wallet-connected {
+    @include button(
+            $accent-colour: $accent,
+            $font-colour: white,
+            $padding-y: 0.5rem, 
+            $padding-x: 1rem,
+            $outline: true,
+            $click-fx: true
+        );
+    
+    .balance {
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+}

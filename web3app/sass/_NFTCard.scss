@@ -1,0 +1,58 @@
+// The NFT Card displaying the NFT image, name, and mint/owner button
+
+.nft-card {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
+    border: 10px solid black;
+    border-radius: 20px;
+
+    // Token Image
+    img {
+        max-height: 256px;
+        max-width: 256px;
+    }
+
+    // Top Banner - shows available or sold
+    .mint-status {
+        display: grid;
+        place-items: center;
+
+        margin-top: -1rem;
+        z-index: -10;
+    }
+
+    %status-banner {
+        color: white;
+        width: fit-content;
+        padding: 0.5rem 1rem;
+    
+        margin: 0;
+        width: 100%;
+    }
+
+    .available {
+        @extend %status-banner;
+        background-color: $green;
+    }
+
+    .sold {
+        @extend %status-banner;
+        background-color: grey;
+    }
+}
+
+// Mint NFT
+.mint-token {
+    @include button($accent, white, $outline: true, $click-fx: true);
+
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+// Owner address
+.btn-owner-addr {
+    @include button(#00C1FF, whitesmoke);
+    text-decoration: none;
+}
