@@ -20,7 +20,7 @@
         const addr = $connectedAccount
 
         // Call the payToMint func on the smart contract that receives ether in exchange of NFT ownership
-        const result = await contract.payToMint(addr, metadataURI, id, { value: ethers.utils.parseEther('0.05') })
+        const result = await contract.payToMint(metadataURI, id, { value: ethers.utils.parseEther('0.05') })
 
         // Wait for the transaction to be mined
         await result.wait()
@@ -41,7 +41,7 @@
 </button> -->
 
 <button
-    class="mint-token-2"
+    class="mint-token"
     on:click={mintToken}
 >
     <div class="mint-text">Mint now!</div>
