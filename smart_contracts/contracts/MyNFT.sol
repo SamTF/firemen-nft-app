@@ -19,6 +19,9 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
     // Dict to track each NFT's minting ID by name
     mapping(string => uint256) tokenName2Id;
 
+    // Dict to keep track of NFT owners
+    mapping(uint256 => address) tokenId2Owner;
+
     // Token name & symbol
     constructor() ERC721("FireMen", "FIRE") {}
 
@@ -59,7 +62,6 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
 
     // Allow anyone to mint a new NFT if they have enough ETH
     function payToMint(
-        address recipient,
         string memory metadataURI,
         string memory tokenName
     ) public payable returns (uint256) {
@@ -83,8 +85,11 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
         tokenName2Id[tokenName] = newItemId;
 
         // Minting the NFT
-        _mint(recipient, newItemId);
+        _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, metadataURI);
+
+        // Saving a record of the NFT's owner by its tokenId
+        tokenId2Owner[newItemId] = msg.sender;
 
         // Hardhat debug logs
         // string memory newTokenURI = tokenURI(newItemId);
@@ -122,14 +127,49 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
 
 
     // Send revenue ether to the contract owner
-    address _owner = 0x5527724ba84dab25559084903cDd03237A5fE143;
-
-    function cashOut() public payable {
+    function cashOut() public payable onlyOwner {
         uint256 balance = getContractBalance();
         require(balance > 0, 'No ether to cash out ;(');
         
-        payable(_owner).transfer(balance);
+        payable(owner()).transfer(balance);
 
         // console.log('Transferred %s GWEI to addr: %s', (balance/10**9), _owner);
+    }
+
+
+    // Transfer token to another address
+    function transferToken(address to, uint256 tokenId) public {
+        safeTransferFrom(msg.sender, to, tokenId);
+
+        // Changing the token's owner on record
+        tokenId2Owner[tokenId] = to;
+    }
+
+
+    // Gets all NFTs owned by the sender's address
+    function getMyTokens() public view returns (string[] memory) {
+        uint totalCount = _tokenIdCounter.current();
+        uint myCount = 0;
+        uint currentIndex = 0;
+
+        // looping over the mapping to find how many tokens are owned by this address
+        for (uint256 index = 0; index < totalCount; index++) {
+            if(tokenId2Owner[index] == msg.sender) {
+                myCount += 1;
+            }
+        }
+
+        // creating an array with length equal to the user's item count
+        string[] memory myTokens = new string[](myCount);
+
+        // now actually getting that address' tokens
+        for (uint256 i = 0; i < totalCount; i++) {
+            if (tokenId2Owner[i] == msg.sender) {
+                myTokens[currentIndex] = tokenURI(i);
+                currentIndex += 1;
+            }
+        }
+
+        return myTokens;
     }
 }
