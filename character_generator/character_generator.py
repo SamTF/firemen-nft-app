@@ -12,6 +12,7 @@ TEMPLATE        =   'body-01.png'
 TEMPLATE_IMG    =   Image.open(f'{PARTS_DIR}{TEMPLATE}')
 VARIATIONS      =   6
 OUTPUT_DIR      =   'characters/'
+IPFS_CID        =   'QmeJMB9XBEYKtkuHsGzaJ2Ei9dqA9nb2tt7S3quX8q6rE9'
 
 
 
@@ -93,12 +94,14 @@ def create_metadata(name: str, hash: str):
     '''
     meta = {
         'name'          : name,
-        'image'         : f'ipfs://{hash}',
+        'image'         : f'ipfs://{IPFS_CID}/{name}.png',
+        'image_cid'     : f'{IPFS_CID}/{name}.png',
         'description'   : 'lm learning web3 stuff, give me a break',
         'attributes'    : [{
             'rarity'    : r(hash),
             'gender'    : get_gender(hash)
-        }]
+        }],
+        'sha256'        : hash
     }
 
     with open(f'{OUTPUT_DIR}{name}.json', 'w+') as file:
