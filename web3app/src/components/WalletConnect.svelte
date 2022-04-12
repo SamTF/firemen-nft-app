@@ -55,7 +55,7 @@
 
 
 <!-- HTML -->
-<div class="container">
+<div>
     {#if $connectedAccount}
         <div class="wallet-connected">
             <div class="balance">{shortBalance(balance)} ETH</div>

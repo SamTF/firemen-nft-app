@@ -28,7 +28,7 @@
 
 
 <!-- HTML -->
-<div class="container">
+<div class="token-list-container">
     <h1>FireMen NFT Collection</h1>
 
     <div class="counter-container">
