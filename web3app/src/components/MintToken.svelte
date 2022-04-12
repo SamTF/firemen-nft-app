@@ -6,7 +6,6 @@
     import { ethers } from 'ethers'
     import { provider, signer, contract } from '../lib/ethereum'
     import { connectedAccount } from '../stores/store'
-    import ethLogo from '../assets/eth-diamond-black.webp'
 
     // Props
     export let metadataURI
@@ -33,20 +32,15 @@
     }
 </script>
 
-<!-- <button
-    class="mint-token"
-    on:click={mintToken}
->
-    Buy now!
-</button> -->
 
+<!-- HTML -->
 <button
     class="mint-token"
     on:click={mintToken}
 >
     <div class="mint-text">Mint now!</div>
     <div class="mint-cost">
-        <img src={ethLogo} alt="ether" title="ether" height="16px">
+        <img src="/images/eth-diamond-black.webp" alt="ether" title="ether" height="16px">
         0.05
     </div>
 </button>

@@ -1,0 +1,30 @@
+// Oval pills for displaying numeric counters
+
+// The base template
+@mixin counter($colour) {
+    border-radius: 2em;
+    outline: none;
+    width: 200px;
+
+    font-variant-numeric: tabular-nums;
+    
+    cursor: pointer;
+
+    transition: all 50ms;
+
+    // Clicking
+    &:active {
+        filter: opacity(0.75);
+        transition: all 0ms;
+    }
+
+    /* Colour */
+    color: $colour;
+    background-color: scale-color($colour, $lightness: 10%);
+    border: 2px solid scale-color($colour, $lightness: 50%);
+}
+
+// Default colour is the main accent colour
+.counter {
+    @include counter($accent)
+}

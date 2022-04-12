@@ -6,7 +6,7 @@
     import MintToken from './MintToken.svelte'
 
     // Importing IPFS constants
-    import { ipfsCID, ipfsGateway } from '../lib/constants'
+    import { ipfsCID, metadataCID, ipfsGateway } from '../lib/constants'
     import { shortAddr } from '../lib/utils'
 
     // Props
@@ -14,7 +14,7 @@
     export let contract
 
     // Vars
-    const metadataURI = `${ipfsCID}/${id}.json`
+    const metadataURI = `${metadataCID}/${id}.json`
     const imageURI = `${ipfsGateway}${ipfsCID}/${id}.png`
     let minted = false
     let owner = ''

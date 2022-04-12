@@ -4,8 +4,27 @@
     import { ethers } from 'ethers'
     import { shortAddr, shortBalance } from '../lib/utils.js'
     import { connectedAccount } from '../stores/store'
+    import { onMount } from 'svelte'
     
-    const { ethereum } = window // getting the Ethereum object from window.ethereum from metamask
+    // const { ethereum } = window // getting the Ethereum object from window.ethereum from metamask
+    let ethereum = null
+
+    onMount(async () => {
+        if (window.ethereum) {
+            ethereum = window.ethereum
+
+            // connect to metamask and get ETH balance
+            connectWallet()
+            getBalance()
+
+            // Listening for account changes
+            ethereum.on('accountsChanged', function (accounts) {
+                console.log(`Account changed!\nNew account: ${accounts}`)
+                $connectedAccount = accounts[0]
+                getBalance()
+            })
+        }
+    })
 
     let balance = '0'
     // let connectedAccount = null
@@ -31,19 +50,6 @@
         // Get all available accounts and let user choose one to connect
         const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
         $connectedAccount = accounts[0]
-    }
-
-    // If there's an Ethereum Object, connect to user's wallet and get their ether balance
-    if (ethereum) {
-        connectWallet()
-        getBalance()
-
-        // Listening for account changes
-        ethereum.on('accountsChanged', function (accounts) {
-            console.log(`Account changed!\nNew account: ${accounts}`)
-            $connectedAccount = accounts[0]
-            getBalance()
-        })
     }
 </script>
 

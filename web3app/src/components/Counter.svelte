@@ -27,12 +27,6 @@
 <!-- CSS -->
 <style>
     .counter {
-        border-radius: 2em;
-        outline: none;
-        width: 200px;
-        font-variant-numeric: tabular-nums;
-        cursor: pointer;
-
         /* Colour */
         color: rgb(var(--colour));
         background-color: rgba(var(--colour), 0.1);
