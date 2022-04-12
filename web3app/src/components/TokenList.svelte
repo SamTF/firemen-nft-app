@@ -42,31 +42,3 @@
         {/each}
     </div>
 </div>
-
-
-<!-- CSS -->
-<style>
-    .container {
-        display: grid;
-        place-items: center;
-
-        margin-top: 5rem;
-    }
-
-    .token-list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        row-gap: 2rem;
-    }
-
-    .counter-container {
-        display: flex;
-        flex-direction: row;
-
-        column-gap: 2rem;
-        
-        margin-top: 2rem;
-        margin-bottom: 5rem;
-    }
-</style>

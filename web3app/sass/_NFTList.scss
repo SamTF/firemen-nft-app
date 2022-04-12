@@ -1,0 +1,36 @@
+// The grid container for the NFT cards
+
+// Container for the grid itself
+.container {
+    display: grid;
+    place-items: center;
+
+    margin-top: 5rem;
+}
+
+// The token grid
+.token-list {
+    // Flex display
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    // Item spacing
+    row-gap: 0.65rem;
+    column-gap: 0.75rem;
+    
+    // Size
+    width: 65%;
+    margin-top: 2rem;
+}
+
+// Some cool number counters
+.counter-container {
+    display: flex;
+    flex-direction: row;
+
+    column-gap: 2rem;
+    
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+}
