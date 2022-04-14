@@ -5,9 +5,11 @@
     import { shortAddr, shortBalance } from '../lib/utils.js'
     import { connectedAccount } from '../stores/store'
     import { onMount } from 'svelte'
+    import Install from './Install.svelte'
     
     // const { ethereum } = window // getting the Ethereum object from window.ethereum from metamask
     let ethereum = null
+    let showOverlay = false
 
     onMount(async () => {
         if (window.ethereum) {
@@ -45,7 +47,11 @@
     // Actually connect a user's metamask wallet
     const connectWallet = async () => {
         // Check if Metamask is installed
-        if(!ethereum) return alert('Go ahead and install MetaMask or some other browser wallet there buddy')
+        if(!ethereum) {
+            // Show overlay prompting user to install metamask if it isn't already installed
+            showOverlay = true
+            return
+        }
 
         // Get all available accounts and let user choose one to connect
         const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
@@ -56,11 +62,14 @@
 
 <!-- HTML -->
 <div>
+    <!-- Display ETH balance and address if connected -->
     {#if $connectedAccount}
         <div class="wallet-connected">
             <div class="balance">{shortBalance(balance)} ETH</div>
             <div class="address card">{shortAddr($connectedAccount)}</div>
         </div>
+    
+    <!-- Display connect button if no account connected -->
     {:else}
         <button 
             class="connect-wallet"
@@ -68,5 +77,10 @@
         >
             Connect to a wallet
         </button>
+    {/if}
+
+    <!-- Show overlay prompting user to install metamask -->
+    {#if showOverlay}
+        <Install bind:toggled={showOverlay} />
     {/if}
 </div>

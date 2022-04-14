@@ -1,0 +1,74 @@
+// Overlay with blurry background and message box
+
+.overlay-container {
+    // Position
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+
+    // Display
+    display: grid;
+    place-items: center;
+
+    // Size
+    width: 100vw;
+    height: 100vh;
+
+    // Blurry background
+    background-color: rgba(0, 0, 0, 0.333);
+    backdrop-filter: blur(10px);
+
+
+    // Fullscreen "button"
+    button {
+        // Position
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+
+        // Size
+        width: 100vw;
+        height: 100vh;
+    
+        // No colour
+        background: none;
+        color: transparent;
+        border: none;
+        outline: none;
+    }
+}
+
+// Message box with metamask link
+.overlay-message {
+    // Position
+    position: relative;
+    z-index: 2;
+
+    // Size
+    padding: 4rem;
+
+    // Design
+    background-color: #181818;
+    color: black;
+    border-radius: 20px;
+
+    background: linear-gradient(40deg, rgba(2,0,36,1) 0%, rgba(255,62,0,1) 40%, rgba(0,212,255,1) 100%);
+    /* background-color: whitesmoke; */
+    background-clip: padding-box;
+    outline: 2px solid transparent;
+
+
+    // Adding a gradient outline to the message box
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: -3;
+        margin: 2px;
+        border-radius: inherit;
+        background: whitesmoke;
+        border-radius: 20px;
+    }
+}
