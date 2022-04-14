@@ -9,15 +9,25 @@
 @import 'NFTCard';
 @import 'NFTList';
 @import 'Counter';
+@import 'Header';
+@import 'Overlay';
 
+* { 
+    margin: 0;
+    padding: 0;
+}
 
 body {
     color: $font-colour;
     background-color: $background-colour;
     font-family: $font-family;
+
+    // background: linear-gradient(40deg, rgba(2,0,36,1) 0%, rgba(255,214,201,1) 0%, rgba(201,246,255,1) 100%); 
 }
 
 main {
+    position: relative;
+    
     display: grid;
     place-items: center;
 
@@ -26,4 +36,8 @@ main {
     padding: 1em;
     max-width: 90vw;
     margin: 0 auto;
+}
+
+p {
+    margin: 1rem;
 }
