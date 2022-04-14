@@ -1,0 +1,22 @@
+// The Header present on every page
+
+header {
+    // Display
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    // Size & Padding
+    padding: 1rem;
+
+    // Design
+    border-bottom: 5px solid white;
+    background: linear-gradient(40deg, rgba(2,0,36,1) 0%, rgba(255,62,0,1) 40%, rgba(0,212,255,1) 100%);
+    box-shadow: 0px 6px 43px 4px rgba(0,0,0,0.75);
+
+    // Text
+    p {
+        color: white;
+        font-weight: 700;
+    }
+}
