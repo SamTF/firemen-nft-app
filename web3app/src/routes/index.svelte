@@ -6,8 +6,6 @@
     import { onMount } from "svelte";
     
     // My Components
-    import Install from '../components/Install.svelte'
-    import WalletConnect from '../components/WalletConnect.svelte'
     import TokenList from '../components/TokenList.svelte'
 
     // debug function to check that the contract loaded successfully
@@ -35,7 +33,6 @@
 
     <p></p>
     <h3>Welcome to my localhost NFT testing website</h3>
-    <WalletConnect />
 
     <br><br>
 
