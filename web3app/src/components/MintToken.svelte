@@ -37,6 +37,7 @@
 <button
     class="mint-token"
     on:click={mintToken}
+    disabled={$connectedAccount == null}
 >
     <div class="mint-text">Mint now!</div>
     <div class="mint-cost">

@@ -24,8 +24,8 @@
     // Animation
     transition: all 100ms;
 
-    // Mouse over
-    &:hover {
+    // Mouse over (when button is enabled)
+    &:hover:not([disabled]) {
         // Lightening the background colour
         background-color: scale-color($accent-colour, $lightness: 20%);
 
@@ -36,8 +36,8 @@
         }
     }
 
-    // Clicking
-    &:active {
+    // Clicking (when button is enabled)
+    &:active:not([disabled]) {
         // Lightening the background colour even more
         background-color: lighten($accent-colour, 25%);
 
