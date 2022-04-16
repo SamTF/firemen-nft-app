@@ -11,6 +11,9 @@
 @import 'Counter';
 @import 'Header';
 @import 'Overlay';
+@import 'MyNFT';
+@import 'Footer';
+
 
 * { 
     margin: 0;
@@ -40,4 +43,9 @@ main {
 
 p {
     margin: 1rem;
+}
+
+.logo {
+    height: 16rem;
+    width: 16rem;
 }
