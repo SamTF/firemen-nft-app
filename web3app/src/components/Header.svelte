@@ -11,11 +11,11 @@
 <header>
     <div class="header-start">
         <p>FireMen NFT Inc.</p>
+        <a href="/">Home</a>
+        <a href="/profile">My Profile</a>
     </div>
 
     <div class="header-end">
         <WalletConnect />
     </div>
 </header>
-
-

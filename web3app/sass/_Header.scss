@@ -1,6 +1,11 @@
 // The Header present on every page
 
 header {
+    // Stickied at the top, above everything
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
     // Display
     display: flex;
     justify-content: space-between;
@@ -18,5 +23,34 @@ header {
     p {
         color: white;
         font-weight: 700;
+    }
+
+
+    // Left side of the header (logo and page routes)
+    .header-start {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        // Page route links
+        a {
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+    
+            text-decoration: none;
+            color: white;
+    
+            transition: transform 200ms ease-out;
+
+            // Hover effect
+            &:hover {
+                transform: scale(1.5);
+            }
+
+            // On click
+            &:active {
+                color: aqua;
+            }
+        }
     }
 }
