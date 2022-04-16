@@ -1,0 +1,28 @@
+// The footer
+
+footer {
+    // Size
+    width: 100vw;
+    height: 2vh;
+
+    // Centered display
+    display: grid;
+    place-items: center;
+
+    // Position: fixed at the bottom of the screen no matter what
+    position: fixed;
+    bottom: 0;
+
+    // Design
+    background-color: $accent;
+    font-weight: 700;
+    font-stretch: expanded;
+
+    // Link to my portfolio website
+    a {
+        text-decoration: none;
+        color: white;
+        font-size: 0.8rem;
+        font-stretch: extra-expanded;
+    }
+}
