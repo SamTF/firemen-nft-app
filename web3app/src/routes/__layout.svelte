@@ -8,7 +8,7 @@
     // maybe import the ethereum shit here?
 
     import Header from '../components/Header.svelte'
-    import Install from '../components/Install.svelte'
+    import Footer from '../components/Footer.svelte'
 </script>
 
 
@@ -18,7 +18,7 @@
 <main>
     <!-- Slot includes the content from the page components that inherit from this -->
     <slot></slot>
-
-    <!-- Footer -->
-    <footer>this is the footer</footer>
 </main>
+
+<!-- Footer -->
+<Footer />
