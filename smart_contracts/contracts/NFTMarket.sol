@@ -15,6 +15,7 @@ contract NFTMarket is ERC721, ReentrancyGuard {
     // Counting all items sold for array reasons
     Counters.Counter private _itemIds;
     Counters.Counter private _itemsSold;
+    Counters.Counter private _itemsForSale;
 
     // The Owner of the marketplace ( me :) )
     address payable owner;
@@ -24,6 +25,9 @@ contract NFTMarket is ERC721, ReentrancyGuard {
 
     // Commision charged by the marketplace owner ( me :) )
     uint256 marketCommission = 5; // percentage
+
+    // Mapping of TokenId to marketItemId
+    mapping (uint256 => uint256) tokenId2itemId;
 
 
     // Object holding all the needed info about an NFT on the market
@@ -85,6 +89,8 @@ contract NFTMarket is ERC721, ReentrancyGuard {
 
         uint256 newItemId = _itemIds.current();
         _itemIds.increment();
+        _itemsForSale.increment();
+        tokenId2itemId[tokenId] = newItemId;
 
         // Creating a new MarketItem and saving it to the mapping
         MarketItem memory newMarketItem = MarketItem(
@@ -112,17 +118,26 @@ contract NFTMarket is ERC721, ReentrancyGuard {
         emit MarketItemCreated(tokenId, nftContract, tokenId, payable(msg.sender), payable(address(0)), price, false);
     }
 
-    // also create function to cancel the listing, and return the NFT to the seller's address
+
+    // Cancel the listing, and return the NFT to the seller's address
     function removeMarketItem(
-        address nftContract,
-        uint tokenId,
-        uint itemId
+        // address nftContract,
+        uint tokenId
     ) public nonReentrant {
+        uint256 itemId = getItemId(tokenId);
+        console.log("item ID: %s", itemId);
+
         MarketItem memory item = id2MarketItem[itemId];
         require(msg.sender == item.seller, "Only the seller can withdraw the listing :)");
 
-        _transfer(address(this), item.seller, tokenId);
+        // one less item for sale
+        _itemsForSale.decrement();
+        id2MarketItem[itemId] = MarketItem(0, address(0), 0, payable(address(0)), payable(address(0)), 0, false);
+
+        // transfer ownership of the token back to the seller
+        IERC721(item.nftContract).transferFrom(address(this), msg.sender, tokenId);
     }
+
 
     // Puchasing an NFT item from the market
     function purchaseMarketItem(
@@ -152,15 +167,32 @@ contract NFTMarket is ERC721, ReentrancyGuard {
     }
 
 
+    //// VIEW FUNCTIONS
+    // Gets a MarketItem ID using the NFT's token ID
+    function getItemId(uint256 tokenId) public view returns (uint256) {
+        return tokenId2itemId[tokenId];
+    }
+    
+    // Count of how many items have been purchased on the market place
+    function getItemsSold() public view returns (uint256) {
+        return _itemsSold.current();
+    }
+
+    // Count for how many items are currently up for sale
+    function getItemsForSale() public view returns (uint256) {
+        return _itemsForSale.current();
+    }
+
+
     // Fetching all items currently for sale
     function fetchMarketItems() public view returns (MarketItem[] memory) {
         uint itemCount = _itemIds.current();
-        uint unsoldItemCount = itemCount - _itemsSold.current();
-        console.log("unsoldItemCount: %s", unsoldItemCount);
+        uint itemsForSale = _itemsForSale.current();
+        console.log("itemsForSale: %s", itemsForSale);
         
         // looping over an array to find every unsold item
         uint currentIndex = 0;
-        MarketItem[] memory items = new MarketItem[](unsoldItemCount);
+        MarketItem[] memory items = new MarketItem[](itemsForSale);
 
         for (uint i = 0; i < itemCount; i++) {
             // Check if the item has an owner

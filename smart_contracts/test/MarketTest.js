@@ -135,7 +135,42 @@ describe("MyNFT Marketplace", function () {
 
             console.log(formattedItems)
 
-            // expect(formattedItems.length).to.equal(listings);
+            expect(formattedItems.length).to.equal(listings);
+        });
+
+
+        it("Should allow cancelling a market listing and return the NFT to the seller", async function () {
+            // Minting 4 NFTs
+            const tokenNames = ['000', '111', '222', '333']
+            for (const name of tokenNames) {
+                const newlyMintedToken = await firemen.connect(addr1).payToMint(`${metadataURI}/${name}.json`, name, { value: ethers.utils.parseEther('0.05') });
+                await newlyMintedToken.wait();
+            }
+
+            // Creating market listings
+            const listings = 4
+            const listingPrice = ethers.utils.parseEther('10')
+
+            for (let index = 0; index < listings; index++) {
+                await firemen.connect(addr1).approveMarket(index);
+                await market.connect(addr1).createMarketItem(firemen.address, index, listingPrice);
+            }
+
+            // Fetching ALL items currently for sale
+            const items = await market.connect(addr1).fetchMyItems();
+            expect(items.length).to.equal(listings);
+
+
+            // Cancelling a market listing
+            await market.connect(addr1).removeMarketItem(2);
+
+            // Again fetching all item for sales, there should be one fewer
+            const newItems = await market.connect(addr1).fetchMyItems();
+            expect(newItems.length).to.equal(listings - 1);
+
+            // Checking Firemen balance
+            let balance = await firemen.balanceOf(addr1.address);
+            expect(balance).to.equal(1);
         });
     });
 })
