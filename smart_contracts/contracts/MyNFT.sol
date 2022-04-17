@@ -22,8 +22,13 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
     // Dict to keep track of NFT owners
     mapping(uint256 => address) tokenId2Owner;
 
+    // Address of the Marketplace smart contract
+    address marketAddress;
+
     // Token name & symbol
-    constructor() ERC721("FireMen", "FIRE") {}
+    constructor(address _marketAddress) ERC721("FireMen", "FIRE") {
+        marketAddress = _marketAddress;
+    }
 
     // Base protocol of the link (http, https, or ipfs)
     function _baseURI() internal pure override returns (string memory) {
@@ -171,5 +176,18 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
         }
 
         return myTokens;
+    }
+
+
+    // Gving the Marketplace contract approval to transfer the Token
+    function approveMarket(uint256 tokenId) public {
+        require(msg.sender == ownerOf(tokenId), "Only the NFT's owner can approve this!");
+        approve(marketAddress, tokenId);
+    }
+
+    // Removing approval once no longer needed
+    function revokeApproval(uint256 tokenId) public {
+        require(msg.sender == ownerOf(tokenId), "Only the NFT's owner can approve this!");
+        approve(address(0), tokenId);
     }
 }

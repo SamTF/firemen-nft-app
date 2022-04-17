@@ -23,7 +23,7 @@ describe("MyNFT Contract", function () {
         FireMen = await ethers.getContractFactory("FireMen");
         [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
 
-        firemen = await FireMen.deploy();
+        firemen = await FireMen.deploy("0x0000000000000000000000000000000000000000");
     });
 
     // You can nest describe calls to create subsections.
