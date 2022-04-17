@@ -1,17 +1,11 @@
 <!-- JS -->
 <script>
-    // Packages
-    import { ethers } from 'ethers'
-    import { onMount } from "svelte";
-
     // Constants & Stores
-    import { FireMenABI, contractAddress, ipfsGateway } from '../lib/constants'
     import { contract, provider, signer } from '../lib/ethereum'
     import { connectedAccount } from '../stores/store'
-    
-    // My Components
-    import Install from '../components/Install.svelte'
-    import WalletConnect from '../components/WalletConnect.svelte'
+
+    // Components
+    import MyNFTList from '../components/MyNFTList.svelte'
 
 
     const signMessage = async (msg) => {
@@ -32,29 +26,7 @@
         let mySignature = await signer.signMessage(message)
         console.log(mySignature)
         return mySignature
-    }
-
-    const getMyTokens = async () => {
-        const myTokenURIs = await contract.getMyTokens()
-        
-        console.log(myTokenURIs)
-        
-        if (myTokenURIs.length == 0)    return []
-
-        let myTokens = []
-        for (const token of myTokenURIs) {
-            const metaURL = token.replace('ipfs://', ipfsGateway)
-            const res = await fetch(metaURL)
-            const data = await res.json()
-
-            myTokens.push(data)
-        }
-
-        return myTokens
-    }
-
-    let promise = getMyTokens()
-    
+    }    
 </script>
 
 
@@ -65,42 +37,10 @@
 
     <p>look at you!</p>
 
-    <WalletConnect />
-
+    <p></p>
     <button on:click={() => signMessage("hello man")}>Sign message</button>
 
     <p></p>
-    <p></p>
-    <p></p>
 
-    {#await promise}
-        <p>fetching your NFTs...</p>
-    {:then Tokens}
-        <div class="token-list">
-            {#each Tokens as token}
-                <div class="nft-card">
-                    <p>{token.name}</p>
-                    <p>{token.attributes[0].gender}</p>
-                    <p>{token.attributes[0].rarity}</p>
-                    <img src={`${ipfsGateway}${token.image_cid}`} alt={token.name}>
-                </div>
-            {/each}
-        </div>
-    {/await}
+    <MyNFTList />
 </main>
-
-
-<!-- CSS -->
-<style>
-    .logo {
-        height: 16rem;
-        width: 16rem;
-    }
-
-    .token-list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 2rem;
-    }
-</style>

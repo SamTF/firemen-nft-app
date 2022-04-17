@@ -1,0 +1,96 @@
+// The NFTs that a user owns, as displayed on their profile
+
+.my-nft {
+    // Position
+    position: relative;
+
+    // Display
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    display: grid;
+    place-items: center;
+
+    // Design
+    background-color: white;
+    border-radius: 15px;
+    outline: 3px solid transparent;
+
+    text-align: center;
+
+    // Cursor
+    cursor: pointer;
+
+    // Animations
+    transition: all 500ms ease-in-out;
+
+
+    // NFT Image
+    img {
+        max-height: 256px;
+        transition: all 100ms ease-out;
+    }
+
+
+    // Mouse over - draw thick outline
+    &:hover {
+        outline-width: 6px;
+        outline-color: $accent;
+        transition: all 200ms ease-in-out;
+    }
+
+
+    // Expanded view
+    &[data-expanded="true"] {
+        // Different coloured outline
+        outline-width: 6px;
+        outline-color: gold;
+
+        // Increase image, give it a shadow, and bring it to the forefront
+        img:hover {
+            filter: drop-shadow(3px 3px 0px black);
+            transform: scale(1.1);
+            z-index: 1;
+        }
+    }
+
+
+    // The name banner at the top
+    .name {
+        // Position
+        position: absolute;
+        top: 0;
+
+        // Size
+        width: 100%;
+
+        // Design
+        background-color: #8fc53e;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+
+        // Text
+        p {
+            margin: 0.5rem 0rem;
+            font-weight: 700;
+            color: white;
+        }
+    }
+}
+
+
+// The container for the my-nft items
+.my-nft-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+
+    row-gap: 2rem;
+    column-gap: 2rem;
+    
+    width: 65%;
+    margin-top: 2rem;
+    margin-bottom: 12rem;
+}
