@@ -2,12 +2,17 @@ const hre = require("hardhat");
 
 const main = async () => {
 
-  // We get the contract to deploy
-  const FireMen = await hre.ethers.getContractFactory("FireMen");
-  const firemen = await FireMen.deploy();
+    // Deploy the NFT Marketplace
+    Market = await ethers.getContractFactory("NFTMarket");
+    market = await Market.deploy();
+    await market.deployed();
 
-  await firemen.deployed();
+    // Deploying the Firemen NFT contract
+    FireMen = await ethers.getContractFactory("FireMen");
+    firemen = await FireMen.deploy(market.address);
+    await firemen.deployed();
 
+  console.log("NFT Marketplace Contract deployed to:", market.address);
   console.log("FireMen NFT Contract deployed to:", firemen.address);
 }
 
