@@ -5,7 +5,7 @@
     import { shortAddr, shortBalance } from '../lib/utils.js'
     import { connectedAccount } from '../stores/store'
     import { onMount } from 'svelte'
-    import Install from './Install.svelte'
+    import Overlay from './Overlay.svelte'
     
     // const { ethereum } = window // getting the Ethereum object from window.ethereum from metamask
     let ethereum = null
@@ -21,6 +21,7 @@
 
             // Listening for account changes
             ethereum.on('accountsChanged', function (accounts) {
+                window.location.reload()
                 console.log(`Account changed!\nNew account: ${accounts}`)
                 $connectedAccount = accounts[0]
                 getBalance()
@@ -81,6 +82,8 @@
 
     <!-- Show overlay prompting user to install metamask -->
     {#if showOverlay}
-        <Install bind:toggled={showOverlay} />
+        <Overlay bind:toggled={showOverlay}>
+            <h3>Go ahead and <a href="https://metamask.io/download/" target="_blank">install MetaMask</a> or some other wallet there buddy</h3>
+        </Overlay>
     {/if}
 </div>

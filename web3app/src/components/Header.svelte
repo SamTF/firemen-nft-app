@@ -13,6 +13,7 @@
         <p>FireMen NFT Inc.</p>
         <a href="/">Home</a>
         <a href="/profile">My Profile</a>
+        <a href="/market">Market</a>
     </div>
 
     <div class="header-end">

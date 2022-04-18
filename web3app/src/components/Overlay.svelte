@@ -14,14 +14,12 @@
 <div class="overlay-container">
 
     <!-- Message box with Metamask link -->
-    <div class="overlay-message" on:click={() => {console.log("clicked overlay")}}>
-        <h3>
-            Go ahead and <a href="https://metamask.io/download/" target="_blank">install MetaMask</a> or some other wallet there buddy
-        </h3>
+    <div class="overlay-message">
+        <slot></slot>
     </div>
 
     <!-- Full screen button to close overlay when clicking anywhere else -->
-    <button on:click={toggleOverlay}>
+    <button class="close-overlay" on:click={toggleOverlay}>
         Close
     </button>
 </div>
