@@ -6,6 +6,7 @@
     import { FireMenABI, contractAddress, ipfsGateway } from '../lib/constants'
     import { contract, provider, signer } from '../lib/ethereum'
     import { connectedAccount } from '../stores/store'
+    import Gift from './Gift.svelte'
 
     // Components
     import MyNFT from './MyNFT.svelte'
@@ -32,6 +33,25 @@
 
         return myTokens
     }
+
+    // Display the send gift overlay
+    let showGiftOverlay = false
+    let tokenToGift = null
+
+    const onSendGift = (event) => {
+        showGiftOverlay = true
+        tokenToGift = event.detail.token.name
+
+        console.log(tokenToGift)
+    }
+
+    const transferNFT = async (tokenName, addressTo) => {
+        const tokenId = await contract.getTokenIdByName(tokenName)
+        const transfer = await contract.transferToken(addressTo, 0)
+
+        console.log(`Gifted NFT #${tokenName} to ${addressTo}!`)
+    }
+
 </script>
 
 
@@ -47,7 +67,7 @@
     {#if Tokens.length > 0}
         <div class="my-nft-list">
             {#each Tokens as token}
-                <MyNFT {token} />
+                <MyNFT {token} on:sendGift={onSendGift}/>
             {/each}
         </div>
 
@@ -57,3 +77,5 @@
     {/if}
     
 {/await}
+
+<Gift bind:showOverlay={showGiftOverlay} bind:tokenName={tokenToGift} />
