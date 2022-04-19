@@ -1,14 +1,27 @@
 // The NFTs that a user owns, as displayed on their profile
 
+// The container for the my-nft items
+.my-nft-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: start;
+
+    row-gap: 2rem;
+    column-gap: 2rem;
+    
+    width: 65%;
+    margin-top: 2rem;
+    margin-bottom: 12rem;
+}
+
+
+// The NFT Item card thing
 .my-nft {
     // Position
     position: relative;
 
     // Display
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
     display: grid;
     place-items: center;
 
@@ -77,20 +90,18 @@
             color: white;
         }
     }
-}
 
-
-// The container for the my-nft items
-.my-nft-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: start;
-
-    row-gap: 2rem;
-    column-gap: 2rem;
-    
-    width: 65%;
-    margin-top: 2rem;
-    margin-bottom: 12rem;
+    // The action buttons (List/Gift)
+    .btn-action {
+        @include button(
+            $blue,
+            whitesmoke,
+            $padding-y: 0.5rem, 
+            $padding-x: 1rem,
+            $outline: true,
+            $click-fx: true
+        );
+        font-size: inherit;
+        width: 100%;
+    }
 }

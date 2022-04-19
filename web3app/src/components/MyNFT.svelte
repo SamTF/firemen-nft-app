@@ -48,13 +48,13 @@
             <hr style="background: black; margin-bottom: 1rem">
 
             <!-- Actions -->
-            <a class="btn-owner-addr" href="/market" target="_blank" style="margin-bottom: 1rem;">
+            <button class="btn-action" style="margin-bottom: 1rem;">
                 <b>💸</b> Create Listing
-            </a>
+            </button>
 
-            <a class="btn-owner-addr" href="" style="margin-bottom: 1rem;" on:click={onSendGift}>
+            <button class="btn-action" style="margin-bottom: 1rem;" on:click={onSendGift}>
                 <b>🎁</b> Send as gift
-            </a>
+            </button>
         </div>
     {/if}
 </div>
