@@ -40,18 +40,8 @@
 
     const onSendGift = (event) => {
         showGiftOverlay = true
-        tokenToGift = event.detail.token.name
-
-        console.log(tokenToGift)
+        tokenToGift = event.detail.token
     }
-
-    const transferNFT = async (tokenName, addressTo) => {
-        const tokenId = await contract.getTokenIdByName(tokenName)
-        const transfer = await contract.transferToken(addressTo, 0)
-
-        console.log(`Gifted NFT #${tokenName} to ${addressTo}!`)
-    }
-
 </script>
 
 
@@ -78,4 +68,4 @@
     
 {/await}
 
-<Gift bind:showOverlay={showGiftOverlay} bind:tokenName={tokenToGift} />
+<Gift bind:showOverlay={showGiftOverlay} bind:token={tokenToGift} />
