@@ -5,29 +5,39 @@
     // Imports
     import { ethers } from 'ethers'
     import { contract, provider, signer } from '../lib/ethereum'
+    import { ipfsGateway } from '../lib/constants'
     import Overlay from './Overlay.svelte'
 
     export let showOverlay = false
-    export let tokenName = ''
+    export let token = null
 
     const toggleOverlay = () => showOverlay = !showOverlay
 
-    let giftAddress = ""
+    let giftAddress = ''
+    let message = {text: '', status: ''}
 
     const giftFireman = async () => {
         console.log(`attempting to send gift to ${giftAddress}...`)
 
-        if (ethers.utils.isAddress(giftAddress)) {
-            console.log(`${giftAddress} is valid!`)
-        } else {
+        // Validating the given address
+        if (!ethers.utils.isAddress(giftAddress)) {
             console.error('Address is invalid!!!')
+            message = { text: 'Address is invalid! ❌', status: 'error' }
+            giftAddress = ''
             return
         }
 
-        const tokenId = await contract.getTokenIdByName(tokenName)
+        // The tokenId by name, and transfer it to the requested address
+        const tokenId = await contract.getTokenIdByName(token.name)
         const transfer = await contract.transferToken(giftAddress, 0)
+        await transfer.wait();
 
-        console.log(`Gifted NFT #${tokenName} to ${giftAddress}!`)
+        // Success message
+        console.log(`Gifted NFT #${token.name} to ${giftAddress}!`)
+        message = { text: 'Successfully gifted Fireman! 🥳', status: 'success' }
+
+        // Reload the page after 1 second
+        setTimeout(() => {  window.location.reload() }, 1000);
     }
 </script>
 
@@ -35,46 +45,23 @@
 <!-- HTML -->
 {#if showOverlay}
     <Overlay bind:toggled={showOverlay}>
-        <h3>Gift a Fireman to your friends! :)</h3>
-        
-        <p>Enter their Ethereum address</p>
+        <div class="gift-overlay">
+            <h3>Gift a Fireman to your friends! :)</h3>
 
-        <input type="text" bind:value={giftAddress} placeholder="0x..."><br>
+            <img src="images/wrapped-gift.png" alt="gift icon" class="gift-icon">
+            <img src={`${ipfsGateway}${token.image_cid}`} alt="fireman" class="fireman">
+            
+            <p>Enter their Ethereum address</p>
 
-        <button class="btn-gift" on:click={giftFireman}>Send!</button>
+            <input type="text" bind:value={giftAddress} placeholder="0x..."><br>
+
+            <button class="btn-gift" on:click={giftFireman}>Send!</button>
+
+            {#if message.text}
+                <p class="message {message.status}">
+                    {message.text}
+                </p>
+            {/if}
+        </div>
     </Overlay>
 {/if}
-
-
-<!-- CSS -->
-<style>
-    input {
-        font-family: inherit;
-        font-size: 1rem;
-        z-index: 100;
-
-        background: white;
-        color: black;
-        border: 2px solid orangered;
-        border-radius: 5px;
-        outline: none;
-
-        padding: 10px 20px;
-    }
-
-    .btn-gift {
-        padding: 10px 20px;
-        margin-bottom: 0;
-
-        margin-top: 1rem;
-        font-family: inherit;
-        font-size: 1rem;
-
-        border: none;
-        border-radius: 15px;
-        color: white;
-        background-color: orangered;
-
-        cursor: pointer;
-    }
-</style>
