@@ -18,6 +18,12 @@
         console.table(token)
         dispatch('sendGift', { token })
     }
+
+    const onCreateMarketListing = () => {
+        console.log('User wants to put up this NFT on the market:')
+        console.table(token)
+        dispatch('createMarketListing', { token })
+    }
 </script>
 
 
@@ -48,11 +54,11 @@
             <hr style="background: black; margin-bottom: 1rem">
 
             <!-- Actions -->
-            <button class="btn-action" style="margin-bottom: 1rem;">
+            <button class="btn-action" on:click={onCreateMarketListing}>
                 <b>💸</b> Create Listing
             </button>
 
-            <button class="btn-action" style="margin-bottom: 1rem;" on:click={onSendGift}>
+            <button class="btn-action" on:click={onSendGift}>
                 <b>🎁</b> Send as gift
             </button>
         </div>

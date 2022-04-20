@@ -7,6 +7,7 @@
     import { contract, provider, signer } from '../lib/ethereum'
     import { connectedAccount } from '../stores/store'
     import Gift from './Gift.svelte'
+    import MarketListing from './MarketListing.svelte'
 
     // Components
     import MyNFT from './MyNFT.svelte'
@@ -42,6 +43,15 @@
         showGiftOverlay = true
         tokenToGift = event.detail.token
     }
+
+    // Display the market listing overlay
+    let showMarketOverlay = false
+    let tokenToSell = null
+
+    const onCreateMarketListing = (event) => {
+        showMarketOverlay = true
+        tokenToSell = event.detail.token
+    }
 </script>
 
 
@@ -57,7 +67,11 @@
     {#if Tokens.length > 0}
         <div class="my-nft-list">
             {#each Tokens as token}
-                <MyNFT {token} on:sendGift={onSendGift}/>
+                <MyNFT
+                    {token}
+                    on:sendGift={onSendGift}
+                    on:createMarketListing={onCreateMarketListing}
+                />
             {/each}
         </div>
 
@@ -68,4 +82,6 @@
     
 {/await}
 
+<!-- Overlay Forms -->
 <Gift bind:showOverlay={showGiftOverlay} bind:token={tokenToGift} />
+<MarketListing bind:showOverlay={showMarketOverlay} token={tokenToSell} />
