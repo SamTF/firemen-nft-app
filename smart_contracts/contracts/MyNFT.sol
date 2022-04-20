@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract FireMen is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
@@ -18,9 +18,6 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
 
     // Dict to track each NFT's minting ID by name
     mapping(string => uint256) tokenName2Id;
-
-    // Dict to keep track of NFT owners
-    mapping(uint256 => address) tokenId2Owner;
 
     // Address of the Marketplace smart contract
     address marketAddress;
@@ -93,8 +90,6 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, metadataURI);
 
-        // Saving a record of the NFT's owner by its tokenId
-        tokenId2Owner[newItemId] = msg.sender;
 
         // Hardhat debug logs
         // string memory newTokenURI = tokenURI(newItemId);
@@ -145,9 +140,6 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
     // Transfer token to another address
     function transferToken(address to, uint256 tokenId) public {
         safeTransferFrom(msg.sender, to, tokenId);
-
-        // Changing the token's owner on record
-        tokenId2Owner[tokenId] = to;
     }
 
 
@@ -159,7 +151,7 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
 
         // looping over the mapping to find how many tokens are owned by this address
         for (uint256 index = 0; index < totalCount; index++) {
-            if(tokenId2Owner[index] == msg.sender) {
+            if(ownerOf(index) == msg.sender) {
                 myCount += 1;
             }
         }
@@ -169,7 +161,7 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
 
         // now actually getting that address' tokens
         for (uint256 i = 0; i < totalCount; i++) {
-            if (tokenId2Owner[i] == msg.sender) {
+            if (ownerOf(i) == msg.sender) {
                 myTokens[currentIndex] = tokenURI(i);
                 currentIndex += 1;
             }
