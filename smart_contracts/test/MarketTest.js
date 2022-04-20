@@ -59,7 +59,7 @@ describe("MyNFT Marketplace", function () {
         });
     });
 
-    describe.only("Selling an NFT on the market", function () {
+    describe("Selling an NFT on the market", function () {
         it("Should put a minted NFT for sale on the market", async function () {
             // Minting a new NFT using addr1
             await firemen.connect(addr1).payToMint(`${metadataURI}/${tokenName}.json`, tokenName, { value: ethers.utils.parseEther('0.05') });
