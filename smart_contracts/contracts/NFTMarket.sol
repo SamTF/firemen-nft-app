@@ -87,6 +87,8 @@ contract NFTMarket is ERC721, ReentrancyGuard {
         require(price > 0, "Price must be at least 1 wei");
         require(msg.value == listingFee, "You must pay the fee to list an item for sale :)");
 
+        console.log(">>> Creating market item for NFT #%s", tokenId);
+
         uint256 newItemId = _itemIds.current();
         _itemIds.increment();
         _itemsForSale.increment();
@@ -164,6 +166,7 @@ contract NFTMarket is ERC721, ReentrancyGuard {
         id2MarketItem[itemId].owner = payable(msg.sender);
         id2MarketItem[itemId].sold = true;
         _itemsSold.increment();
+        _itemsForSale.decrement();
     }
 
 
@@ -196,7 +199,7 @@ contract NFTMarket is ERC721, ReentrancyGuard {
 
         for (uint i = 0; i < itemCount; i++) {
             // Check if the item has an owner
-            if (id2MarketItem[i].owner == address(this)) {
+            if (id2MarketItem[i].owner == address(this) && id2MarketItem[i].sold == false) {
                 uint id = id2MarketItem[i].itemId;
                 MarketItem storage currentItem = id2MarketItem[id];
 
