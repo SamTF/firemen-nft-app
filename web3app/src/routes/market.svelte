@@ -6,6 +6,7 @@
     import { contract, marketContract, provider, signer } from '../lib/ethereum'
     import { connectedAccount } from '../stores/store'
     import MyNFTList from '../components/MyNFTList.svelte'
+    import MarketItemList from '../components/Market/MarketItemList.svelte'
 
 
     const fetchMarketItems = async () => {
@@ -34,41 +35,18 @@
 
 
 <!-- HTML -->
-<main>
+<div class="token-list-container">
     <img src='/images/Fireman.webp' alt="Fireman" class="logo" />
     <h1>this is the market</h1>
 
     <p></p>
     <h3>buy high sell low, shut up let's go!</h3>
 
-    <p></p><p></p><p></p>
+    <MarketItemList />
 
-    <div class="market">
-        <!-- Fetching all Market Items -->
-        {#await fetchMarketItems()}
-            <code>fetching NFTs up for sale...</code>
+</div>
 
-        <!-- Rendered after fetching the market list -->
-        {:then Tokens} 
-            <!-- Checking that the current address actually owns anything -->
-            {#if Tokens.length > 0}
-            <div class="my-nft-list">
-                {#each Tokens as token}
-                    <div>
-                        <p>TokenId: {token.tokenId}</p>
-                        <p>Price: {token.price} ETH</p>
-                        <p>Seller: {token.seller}</p>
-                        <p>{token.tokenURI}</p>
-                    </div>
-                {/each}
-            </div>
+<!-- CSS -->
+<style>
 
-        <!-- Sad message if the address has 0 NFTs ;( -->
-        {:else}
-            <p>There are no NFTs for sale yet ;(</p>
-        {/if}
-        {/await}
-    </div>
-
-    
-</main>
+</style>
