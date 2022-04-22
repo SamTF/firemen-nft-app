@@ -5,10 +5,13 @@
     // IMPORTS
     import { createEventDispatcher, onMount } from 'svelte';
     import { fade, slide } from 'svelte/transition'
-    import { FireMenABI, contractAddress, ipfsGateway } from '../../lib/constants'
-    import { contract, marketContract } from '../../lib/ethereum'
+
+    import { ethers } from 'ethers'
+
+    import { contractAddress, ipfsGateway } from '../../lib/constants'
+    import { marketContract } from '../../lib/ethereum'
     import { shortAddr } from '../../lib/utils'
-    import {connectedAccount} from '../../stores/store'
+    import { connectedAccount } from '../../stores/store'
 
     // Props
     export let marketItem = {}
@@ -16,7 +19,7 @@
     // Variables
     let token = {}
     let showDetails = false
-    
+
     const toggleDetails = () => showDetails = !showDetails
 
     const dispatch = createEventDispatcher();
@@ -35,8 +38,11 @@
 
     // Buying this NFT
     const buyToken = async () => {
-        const purchase = await marketContract.purchaseMarketItem(contractAddress, marketItem.tokenId, { value : marketItem.price })
+        const listingPrice = ethers.utils.parseEther(marketItem.price)
+        const purchase = await marketContract.purchaseMarketItem(contractAddress, marketItem.tokenId, { value : listingPrice })
         await purchase.wait()
+
+        window.location.reload()
     }
 </script>
 
@@ -77,7 +83,7 @@
             <!-- Actions -->
             <button
                 class="mint-token"
-                on:click={() => {}}
+                on:click={buyToken}
                 disabled={$connectedAccount == null}
                 style="margin-bottom: 1rem;"
             >
