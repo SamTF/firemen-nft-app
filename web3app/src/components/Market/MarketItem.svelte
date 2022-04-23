@@ -19,6 +19,7 @@
     // Variables
     let token = {}
     let showDetails = false
+    let soldByConnected = false
 
     const toggleDetails = () => showDetails = !showDetails
 
@@ -31,6 +32,8 @@
         const res = await fetch(metaURL)
         const data = await res.json()
         token = data
+
+        soldByConnected = (marketItem.seller).toLowerCase() == $connectedAccount
     }
 
     // On Start
@@ -44,12 +47,21 @@
 
         window.location.reload()
     }
+
+    // Removing NFT from the Market
+    const cancelListing = async () => {
+        const removal = await marketContract.removeMarketItem(marketItem.tokenId)
+        await removal.wait()
+
+        window.location.reload()
+    }
 </script>
 
 
 <!-- HTML -->
 <div
     class="my-nft"
+    class:connected={soldByConnected}
     in:fade
     on:click={toggleDetails}
     data-expanded={showDetails}
@@ -81,18 +93,47 @@
             <hr style="background: black; margin-bottom: 1rem">
 
             <!-- Actions -->
-            <button
-                class="mint-token"
-                on:click={buyToken}
-                disabled={$connectedAccount == null}
-                style="margin-bottom: 1rem;"
-            >
-                <div class="mint-text">Buy now!</div>
-                <div class="mint-cost">
-                    <img src="/images/eth-diamond-black.webp" alt="ether" title="ether" height="16px">
-                    {marketItem.price}
-                </div>
-            </button>
+
+            <!-- Cancel NFT market listing (if seller) -->
+            {#if soldByConnected}
+                <button class="btn-action" on:click={cancelListing} style="background-color: red; outline-color: red; margin-bottom: 1.5rem;">
+                    <b>🗑️</b> Cancel Listing
+                </button>
+
+            <!-- If currently connected user is not the seller -->
+            {:else}
+                <!-- Purchase NFT -->
+                <button
+                    class="mint-token"
+                    on:click={buyToken}
+                    disabled={$connectedAccount == null}
+                    style="margin-bottom: 1rem;"
+                >
+                    <div class="mint-text">Buy now!</div>
+                    <div class="mint-cost">
+                        <img src="/images/eth-diamond-black.webp" alt="ether" title="ether" height="16px">
+                        {marketItem.price}
+                    </div>
+                </button>
+            {/if}
         </div>
     {/if}
 </div>
+
+
+<style>
+    .connected {
+        position: relative;
+
+        outline-color: #00c1ff;
+        outline-width: 6px;
+    }
+
+    .connected::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: "⭐";
+        font-size: 2rem;
+    }
+</style>
