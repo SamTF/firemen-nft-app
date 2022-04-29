@@ -29,7 +29,7 @@
 
         // The tokenId by name, and transfer it to the requested address
         const tokenId = await contract.getTokenIdByName(token.name)
-        const transfer = await contract.transferToken(giftAddress, 0)
+        const transfer = await contract.transferToken(giftAddress, tokenId)
         await transfer.wait();
 
         // Success message
