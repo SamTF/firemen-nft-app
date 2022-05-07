@@ -17,6 +17,7 @@
             const tokenURI = await contract.tokenURI(i.tokenId);
 
             let item = {
+                itemId: i.itemId,
                 price: ethers.utils.formatEther(i.price),
                 tokenId: i.tokenId.toString(),
                 seller: i.seller,
