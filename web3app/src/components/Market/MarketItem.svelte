@@ -42,7 +42,7 @@
     // Buying this NFT
     const buyToken = async () => {
         const listingPrice = ethers.utils.parseEther(marketItem.price)
-        const purchase = await marketContract.purchaseMarketItem(contractAddress, marketItem.tokenId, { value : listingPrice })
+        const purchase = await marketContract.purchaseMarketItem(contractAddress, marketItem.itemId, { value : listingPrice })
         await purchase.wait()
 
         window.location.reload()

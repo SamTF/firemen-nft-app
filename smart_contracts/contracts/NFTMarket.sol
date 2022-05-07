@@ -104,7 +104,7 @@ contract NFTMarket is ERC721, ReentrancyGuard {
             price,
             false
         );
-        id2MarketItem[tokenId] = newMarketItem;
+        id2MarketItem[newItemId] = newMarketItem;
         console.log("Addr %s listed NFT #%s from contract %s", newMarketItem.seller, newMarketItem.tokenId, newMarketItem.nftContract);
         console.log("\t... for %s ETH", newMarketItem.price / 10**18);
 
@@ -117,7 +117,7 @@ contract NFTMarket is ERC721, ReentrancyGuard {
         );       
 
         // Emit the event
-        emit MarketItemCreated(tokenId, nftContract, tokenId, payable(msg.sender), payable(address(0)), price, false);
+        emit MarketItemCreated(newItemId, nftContract, tokenId, payable(msg.sender), payable(address(0)), price, false);
     }
 
 
@@ -148,6 +148,9 @@ contract NFTMarket is ERC721, ReentrancyGuard {
     ) public payable nonReentrant {
         uint price = id2MarketItem[itemId].price;
         uint tokenId = id2MarketItem[itemId].tokenId;
+
+        console.log("Tx value: %s", msg.value);
+        console.log("Item price: %s", price);
 
         require(msg.value == price, "Transaction value must equal the item's price");
 
@@ -199,6 +202,10 @@ contract NFTMarket is ERC721, ReentrancyGuard {
 
         for (uint i = 0; i < itemCount; i++) {
             // Check if the item has an owner
+            console.log("NFT #%s | Item ID #%s | Owner: %s",
+                id2MarketItem[i].tokenId,
+                id2MarketItem[i].itemId,
+                id2MarketItem[i].owner);
             if (id2MarketItem[i].owner == address(this) && id2MarketItem[i].sold == false) {
                 uint id = id2MarketItem[i].itemId;
                 MarketItem storage currentItem = id2MarketItem[id];
