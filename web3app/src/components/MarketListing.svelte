@@ -22,8 +22,13 @@
 
         // Get tokenId by name, and approve it for the Market contract
         const tokenId = await contract.getTokenIdByName(token.name)
-        const approve = await contract.approveMarket(tokenId)
-        await approve.wait()
+
+        const isApproved = await contract.checkApproval(tokenId)
+
+        if (!isApproved) {
+            const approve = await contract.approveMarket(tokenId)
+            await approve.wait()
+        }
 
         // Create a Market Listing
         const listingPrice = ethers.utils.parseEther(price.toString())

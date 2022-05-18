@@ -182,4 +182,11 @@ contract FireMen is ERC721, ERC721URIStorage, Ownable {
         require(msg.sender == ownerOf(tokenId), "Only the NFT's owner can approve this!");
         approve(address(0), tokenId);
     }
+
+    // Check if the NFT Market has already been approved
+    function checkApproval(uint256 tokenId) public view returns (bool) {
+        address approvedAddr = getApproved(tokenId);
+        console.log("Approved address: ", approvedAddr);
+        return (approvedAddr == marketAddress);
+    }
 }

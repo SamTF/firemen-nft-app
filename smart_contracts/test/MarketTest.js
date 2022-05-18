@@ -45,6 +45,8 @@ describe("MyNFT Marketplace", function () {
             // Set approval for the current token
             console.log('>>> Approving marketplace for current NFT');
             await firemen.connect(addr1).approveMarket(0);
+            const approvedAddr = await firemen.connect(addr1).checkApproval(0);
+            console.log(`Approved address for token ID 0: ${approvedAddr}`)
 
             // Make sure the market address is now approved
             approved = await firemen.getApproved(0);
