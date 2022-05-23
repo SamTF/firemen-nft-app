@@ -6,6 +6,7 @@
 
     // Components
     import MyNFTList from '../components/MyNFTList.svelte'
+    import Meta from '../components/Metadata/Meta.svelte'
 
 
     const signMessage = async (msg) => {
@@ -32,6 +33,8 @@
 
 <!-- HTML -->
 <main>
+    <Meta title="Firemen NFT | My Profile" />
+
     <img src='/images/Fireman.webp' alt="Fireman pixel art" class="logo" />
     <h1>Your Fireman Profile</h1>
 

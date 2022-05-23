@@ -7,6 +7,7 @@
     
     // My Components
     import TokenList from '../components/TokenList.svelte'
+    import Meta from '../components/Metadata/Meta.svelte'
 
     // debug function to check that the contract loaded successfully
     const getByteCode = async (address) => {
@@ -28,14 +29,19 @@
     })
 </script>
 
+
+<!-- HTML -->
 <main>
+    <Meta title="Firemen NFT | Collection" />
+
     <img src='/images/Fireman.webp' alt="Fireman" class="logo" />
     <h1>Firemen NFT App</h1>
 
-    <p></p>
-    <h3>Welcome to my localhost NFT testing website</h3>
+    <br>
 
-    <br><br>
+    <h3>Welcome to my NFT website I made to learn Web3.0 and Smart Contracts</h3>
+
+    <br>
 
     <TokenList {contract} />
 </main>
