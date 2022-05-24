@@ -30,7 +30,6 @@
     // Get the address of the current NFT owner
     const getOwner = async () => {
         const result = await contract.getOwnerByName(id)
-        console.log(`Owner of ${id} -> ${result}`)
         owner = result
     }
 
