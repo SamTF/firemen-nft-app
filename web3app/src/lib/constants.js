@@ -18,4 +18,19 @@ export const ipfsCID = 'QmeJMB9XBEYKtkuHsGzaJ2Ei9dqA9nb2tt7S3quX8q6rE9'
 export const metadataCID = 'Qmbw3ksVq8tWvx9i6RCoPcbpsgLZp4BT12XXQpJD1bwxRh'
 export const ipfsGateway = 'https://gateway.ipfs.io/ipfs/'
 
+// Network Stuff
+export const rpcUrl = `https://polygon-mumbai.g.alchemy.com/v2/${import.meta.env.VITE_ALCHEMY_API}`
+export const chainId = 80001
+export const networkParams = {
+    chainId: '0x13881',
+    chainName: 'Polygon Mumbai',
+    nativeCurrency: {
+        name: 'Polygon Coin',
+        symbol: 'MATIC',
+        decimals: 18
+    },
+    rpcUrls: ['https://matic-mumbai.chainstacklabs.com/'],
+    blockExplorerUrls: ['https://mumbai.polygonscan.com/']
+}
+
 console.log('Smart contract address -> ' + contractAddress)

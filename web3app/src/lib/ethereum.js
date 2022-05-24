@@ -2,7 +2,7 @@
 
 import { browser } from '$app/env'
 import { ethers } from 'ethers'
-import { FireMenABI, contractAddress, MarketABI, marketAddress } from './constants'
+import { FireMenABI, contractAddress, MarketABI, marketAddress, rpcUrl } from './constants'
 
 // Ethereum constants
 let provider = null
@@ -25,7 +25,7 @@ if (browser) {
     
     // Using a default RPC provider, to allow for read-only functions on the smart contract 
     } else {
-        provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/');
+        provider = new ethers.providers.JsonRpcProvider(rpcUrl);
         contract = new ethers.Contract(contractAddress, FireMenABI, provider)
         marketContract = new ethers.Contract(marketAddress, MarketABI, provider)
     }
