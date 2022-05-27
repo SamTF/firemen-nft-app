@@ -37,6 +37,12 @@
         );
         font-size: inherit;
         width: 80%;
+
+        &:disabled {
+            opacity: 50%;
+            cursor: not-allowed;
+            filter: blur(1px);
+        }
     }
 
     // The wrapped present icon
