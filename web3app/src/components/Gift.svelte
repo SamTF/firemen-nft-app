@@ -7,6 +7,7 @@
     import { contract, provider, signer } from '../lib/ethereum'
     import { ipfsGateway } from '../lib/constants'
     import Overlay from './Overlay.svelte'
+    import Loading from './UI/Loading.svelte'
 
     export let showOverlay = false
     export let token = null
@@ -15,6 +16,7 @@
 
     let giftAddress = ''
     let message = {text: '', status: ''}
+    let isLoading = false
 
     const giftFireman = async () => {
         console.log(`attempting to send gift to ${giftAddress}...`)
@@ -27,17 +29,20 @@
             return
         }
 
+        isLoading = true
+
         // The tokenId by name, and transfer it to the requested address
         const tokenId = await contract.getTokenIdByName(token.name)
         const transfer = await contract.transferToken(giftAddress, tokenId)
         await transfer.wait();
+        isLoading = false
 
         // Success message
         console.log(`Gifted NFT #${token.name} to ${giftAddress}!`)
         message = { text: 'Successfully gifted Fireman! 🥳', status: 'success' }
 
         // Reload the page after 1 second
-        setTimeout(() => {  window.location.reload() }, 1000);
+        setTimeout(() => {  window.location.reload() }, 2000);
     }
 </script>
 
@@ -55,7 +60,18 @@
 
             <input type="text" bind:value={giftAddress} placeholder="0x..."><br>
 
-            <button class="btn-gift" on:click={giftFireman}>Send!</button>
+            <!-- Gift Button -->
+            <button
+                class="btn-gift"
+                on:click={giftFireman}
+                disabled={isLoading}
+            >
+                {#if !isLoading}
+                    Send! 📨
+                {:else}
+                    <Loading />
+                {/if}
+            </button>
 
             {#if message.text}
                 <p class="message {message.status}">

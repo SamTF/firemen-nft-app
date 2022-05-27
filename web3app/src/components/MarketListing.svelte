@@ -7,6 +7,7 @@
     import { contract, marketContract } from '../lib/ethereum'
     import { ipfsGateway, contractAddress } from '../lib/constants'
     import Overlay from './Overlay.svelte'
+    import Loading from './UI/Loading.svelte'
 
     export let showOverlay = false
     export let token = null
@@ -15,33 +16,42 @@
 
     let price = 1
     let message = {text: '', status: ''}
+    let isLoading = false
 
     // Putting the given NFT for sale on the Market
     const createMarketListing = async () => {
         console.log(`attempting to put up NFT #${token.name} for sale for ${price} ETH...`)
+        isLoading = true
 
-        // Get tokenId by name, and approve it for the Market contract
-        const tokenId = await contract.getTokenIdByName(token.name)
+        try {
+            // Get tokenId by name, and approve it for the Market contract
+            const tokenId = await contract.getTokenIdByName(token.name)
 
-        const isApproved = await contract.checkApproval(tokenId)
+            const isApproved = await contract.checkApproval(tokenId)
 
-        if (!isApproved) {
-            const approve = await contract.approveMarket(tokenId)
-            await approve.wait()
+            if (!isApproved) {
+                const approve = await contract.approveMarket(tokenId)
+                await approve.wait()
+            }
+
+            // Create a Market Listing
+            const listingPrice = ethers.utils.parseEther(price.toString())
+            const listing = await marketContract.createMarketItem(contractAddress, tokenId, listingPrice)
+            await listing.wait()
+            isLoading = false
+
+
+            // Success message
+            console.log(`Listed NFT #${token.name} on the market for ${price} ETH!`)
+            message = { text: 'Successfully listed Fireman for sale 🥳', status: 'success' }
+
+            // Reload the page after 1 second
+            setTimeout(() => {  window.location.reload() }, 1000);
+
+        } catch (error) {
+            console.error(error)
+            isLoading = false
         }
-
-        // Create a Market Listing
-        const listingPrice = ethers.utils.parseEther(price.toString())
-        const listing = await marketContract.createMarketItem(contractAddress, tokenId, listingPrice)
-        await listing.wait()
-        
-
-        // Success message
-        console.log(`Listed NFT #${token.name} on the market for ${price} ETH!`)
-        message = { text: 'Successfully listed Fireman for sale 🥳', status: 'success' }
-
-        // Reload the page after 1 second
-        setTimeout(() => {  window.location.reload() }, 1000);
     }
 </script>
 
@@ -63,7 +73,18 @@
                 min="0.001" max="999999" step="0.001"
             >
 
-            <button class="btn-gift" on:click={createMarketListing}>Sell!</button>
+            <!-- Sell Button -->
+            <button
+                class="btn-gift"
+                on:click={createMarketListing}
+                disabled={isLoading}
+            >
+                {#if !isLoading}
+                    Sell!
+                {:else}
+                    <Loading />
+                {/if}
+            </button>
 
             {#if message.text}
                 <p class="message {message.status}">
