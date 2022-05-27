@@ -6,7 +6,7 @@
     import MintToken from './MintToken.svelte'
 
     // Importing IPFS constants
-    import { ipfsCID, metadataCID, ipfsGateway } from '../lib/constants'
+    import { ipfsCID, metadataCID, ipfsGateway, blockExplorer } from '../lib/constants'
     import { shortAddr } from '../lib/utils'
 
     // Props
@@ -67,7 +67,7 @@
     {:else}
         <a 
             class="btn-owner-addr"
-            href={`https://etherscan.io/address/${owner}`} target="_blank"
+            href={`${blockExplorer}address/${owner}`} target="_blank"
         >
             <b>ⓘ</b>
             {shortAddr(owner)}

@@ -8,7 +8,7 @@
 
     import { ethers } from 'ethers'
 
-    import { contractAddress, ipfsGateway } from '../../lib/constants'
+    import { contractAddress, ipfsGateway, blockExplorer } from '../../lib/constants'
     import { marketContract } from '../../lib/ethereum'
     import { shortAddr } from '../../lib/utils'
     import { connectedAccount } from '../../stores/store'
@@ -84,7 +84,7 @@
             <p><b>Rarity:</b> {Math.round(token.attributes[0].rarity)}</p>
 
             <a class="btn-owner-addr"
-                href={`https://etherscan.io/address/${marketItem.seller}`} target="_blank"
+                href={`${blockExplorer}address/${marketItem.seller}`} target="_blank"
                 style="margin-bottom: 1rem;"
             >
                 <b>Sold by</b> {shortAddr(marketItem.seller)}

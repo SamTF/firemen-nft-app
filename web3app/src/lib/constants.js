@@ -21,6 +21,8 @@ export const ipfsGateway = 'https://gateway.ipfs.io/ipfs/'
 // Network Stuff
 export const rpcUrl = `https://polygon-mumbai.g.alchemy.com/v2/${import.meta.env.VITE_ALCHEMY_API}`
 export const chainId = 80001
+export const blockExplorer = 'https://mumbai.polygonscan.com/'
+
 export const networkParams = {
     chainId: '0x13881',
     chainName: 'Polygon Mumbai',
@@ -30,7 +32,7 @@ export const networkParams = {
         decimals: 18
     },
     rpcUrls: ['https://matic-mumbai.chainstacklabs.com/'],
-    blockExplorerUrls: ['https://mumbai.polygonscan.com/']
+    blockExplorerUrls: [blockExplorer]
 }
 
 console.log('Smart contract address -> ' + contractAddress)
