@@ -1,4 +1,4 @@
-﻿# [nft.currencything.com](http://v2.currencything.com/) 🔥
+﻿# [nft.currencything.com](http://nft.currencything.com/) 🔥
 ![banner](https://i.imgur.com/YnidaNH.png)
 This is a testnet NFT marketplace where you can mint fun Firemen, gift them to yours friends, and buy/sell them on the market.
 
